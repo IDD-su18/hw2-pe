@@ -1,7 +1,8 @@
 // Sourced from LadyAda on https://blog.adafruit.com/2009/10/20/example-code-for-multi-button-checker-with-debouncing/
 
 
-#define DEBOUNCE 100  // Debounce delay
+#define DEBOUNCE 60  // Debounce delay
+#define CONFIRMATION_TIME 10
  
 // here is where we define the buttons that we'll use. button "1" is the first, button "6" is the 6th, etc
 byte buttons[] = {9, 10, 11, 12, 13}; 
@@ -13,6 +14,7 @@ byte buttons[] = {9, 10, 11, 12, 13};
 byte pressed[NUMBUTTONS], justpressed[NUMBUTTONS], justreleased[NUMBUTTONS];
 char letter;
 int mapTo;
+unsigned long timeDiff;
 int rowNumber = 0;
 int rowPresses = 3; //rowPresses should automatically be on rowNumber 0, or 1 on the physical board
 // mod 3 --> 3 states: 0, 1, 2 to map to a rowNumber;
@@ -34,6 +36,7 @@ void setup() {
 
 void check_switches()
 {
+  delay(50);
   static byte previousstate[NUMBUTTONS];
   static byte currentstate[NUMBUTTONS];
   static long lasttime;
@@ -44,12 +47,12 @@ void check_switches()
      lasttime = millis(); // we wrapped around, lets just try again
   }
  
-  if ((lasttime + DEBOUNCE) > millis()) {
+  if ((lasttime + DEBOUNCE) > millis())  {
     return; // not enough time has passed to debounce
   }
   // ok we have waited DEBOUNCE milliseconds, lets reset the timer
   lasttime = millis();
- 
+  
   for (index = 0; index < NUMBUTTONS; index++) {
     justpressed[index] = 0;       // when we start, we clear out the "just" indicators
     justreleased[index] = 0;
@@ -209,8 +212,8 @@ void loop() {
          else { // rows are being toggled
           rowPresses += 1;
           rowNumber = rowPresses % 3; 
-          Serial.print("Currently on row ");
-          Serial.println(rowNumber);
+    //      Serial.println("Currently on row ");
+    //      Serial.print(rowNumber);
           storedStates[i] = 0;
          }
       }
