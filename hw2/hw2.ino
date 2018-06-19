@@ -1,7 +1,7 @@
 // Sourced from LadyAda on https://blog.adafruit.com/2009/10/20/example-code-for-multi-button-checker-with-debouncing/
 
 
-#define DEBOUNCE 60  // Debounce delay
+#define DEBOUNCE 30  // Debounce delay
 #define CONFIRMATION_TIME 10
  
 // here is where we define the buttons that we'll use. button "1" is the first, button "6" is the 6th, etc
@@ -34,9 +34,7 @@ void setup() {
   }
 }
 
-void check_switches()
-{
-  delay(50);
+void check_switches() {
   static byte previousstate[NUMBUTTONS];
   static byte currentstate[NUMBUTTONS];
   static long lasttime;
@@ -174,10 +172,10 @@ void loop() {
   byte storedStates[NUMBUTTONS];
   int stored[3]; //for some reason the first index gives a random number, so stored[1] [2] contain the buttons
   for (int i = 0; i < NUMBUTTONS; i++) {
-    if (justpressed[i]) {
+    if (justreleased[i]) {
         noPresses++;
         stored[noPresses] = i;
-        justpressed[i] = 0; //need to reset so it doesn't repeat in monitor
+        justreleased[i] = 0; //need to reset so it doesn't repeat in monitor
         storedStates[i] = 1; //migrate justpressed values to another array if noPresses != 2
       
     }
