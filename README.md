@@ -12,14 +12,16 @@ The original chorded keyboard based key mappings on the number the letter corres
 
 ## Hardware
 ### Circuit
-The circuit consists of five switches and an Adafruit Feather M0. Switches were connected to pins 9-13 on the Feather on one terminal, and ground on the other terminal. Therefore, when the user presses the switch, the switch will be registered as ```LOW``` on the microcontroller because the two terminals on the switch get connected, and the 3.3V is pulled down to ground. Without any presses, the state is regularly registered as ```HIGH```, and internal pull-up resistors are used.
+The circuit consists of five switches and an Adafruit Feather M0. Switches were connected to pins 7-11 on the Feather on one terminal, and ground on the other terminal. Therefore, when the user presses the switch, the switch will be registered as ```LOW``` on the microcontroller because the two terminals on the switch get connected, and the 3.3V is pulled down to ground. Without any presses, the state is regularly registered as ```HIGH```, and internal pull-up resistors are used.
 
-The LEDs that are used to display the current group status (see Software: Mapping) were connected to pins X-Z on the microcontroller. Pressing a preset switch would toggle the grouping, and thus toggle which LED was on with the use of ```digitalWrite(PIN, 0)``` to turn the last group state-associated LED off, and the next grouping on with ```digitalWrite(PIN,1)```. Two LEDs are used to represent three modes; the left LED represents Mode 1, the right LED represents Mode 2, and both LEDs represent Mode 3.
+The LEDs that are used to display the current group status (see Software: Mapping) were connected to pins 12 and 13 on the microcontroller. Pressing a preset switch would toggle the grouping, and thus toggle which LED was on with the use of ```digitalWrite(PIN, 0)``` to turn the last group state-associated LED off, and the next grouping on with ```digitalWrite(PIN,1)```. Two LEDs are used to represent three modes; the left LED represents Mode 1, the right LED represents Mode 2, and both LEDs represent Mode 3.
 
 ![Circuit on the breadboard.](HW2_bb.jpg)
+![Equivalent switch schematic.](switch.png)
+![Equivalent LED schematic.](led.png)
 
 ### Housing
-The housing is made from 1/8'' thick Plywood. Designs were laser cut using a Universal Laser System. Although several cuts were made in order to get the correct height so the keys would lie directly on top of the buttons. Three holes were cut out for LED display to indicate the current grouping , and a notch on the side was cut out for the microUSB connection to the microcontroller.
+The housing is made from 1/8'' thick Plywood. Designs were laser cut using a Universal Laser System. Although several cuts were made in order to get the correct height so the keys would lie directly on top of the buttons. Three holes were cut out for LED display to indicate the current grouping, and a notch on the side was cut out for the microUSB connection to the microcontroller.
 ![Laser cutting the parts.](IMG_0059.JPG)
 ![Housing after construction.](IMG_0061.jpg)
 
