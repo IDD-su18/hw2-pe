@@ -16,6 +16,8 @@ The circuit consists of five switches and an Adafruit Feather M0. Switches were 
 
 The LEDs that are used to display the current group status (see Software: Mapping) were connected to pins X-Z on the microcontroller. Pressing a preset switch would toggle the grouping, and thus toggle which LED was on with the use of ```digitalWrite(PIN, 0)``` to turn the last group state-associated LED off, and the next grouping on with ```digitalWrite(PIN,1)```.
 
+### Include fritzing
+
 ### Housing
 The housing is made from 1/8'' thick Plywood. Designs were laser cut using a Universal Laser System. Although several cuts were made in order to get the correct height so the keys would lie directly on top of the buttons. Three holes were cut out for LED display to indicate the current grouping , and a notch on the side was cut out for the microUSB connection to the microcontroller.
 ### Include several pics of housing
