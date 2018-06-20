@@ -132,6 +132,12 @@ void findLetter() { //hardcode the mapping!
     case 40:
       letter = ' ';
       break;
+    case 41:
+      letter = '\n';
+      break;
+    case 42:
+      letter = '\t';
+      break;
     default:
       letter = '??';
       break;
