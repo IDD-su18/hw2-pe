@@ -38,4 +38,27 @@ Once the correct group was selected, the user then has a choice of 8-9 different
 
 ![Key Mapping Sketch.](images/mapping_sketch.jpg)
 
+| character | step | key 4 | key 3 | key 2 | key 1|
+| --- | --- | --- | ---  | --- | --- |
+|a|0|| ||x|
+|b|0|| |x||
+|c|0|| |x|x|
+|d|0||x|||
+|e|0||x||x|
+|f|0||x|x||
+|g|0|x||||
+|h|0|x|||x|
+|i|0|x||x||
+|j|0|x|x|||
+|k|1||||x|
+|...||||||
+|t|1|x|x|||
+|u|2||||x|
+|...||||||
+|z|2||x|x||
+|?|2|x||||
+|.|2|x|||x|
+|,|2|x||x||
+|!|2|x|x|||
+
 ## Final Product Demo
