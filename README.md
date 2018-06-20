@@ -31,7 +31,7 @@ After waiting for the set debounce time, presses were registered as valid and st
 ### Mapping
 Instead of using the math-based mapping of the original chorded keyboard, we decided to create specific mappings to different key patterns. The alphabet was split into groups of 3: A-I, J-R, and S-V. Accessing a key from any of these groups would require toggling the "MODE" button on the leftmost side to the respective group.
 ### Include photo of keys here
-Once the correct group was selected, the user then has a choice of 8-9 different letters to choose from. While the first four letters could be chosen with one key press, the remaining 5 required two different keys in order to select the correct letter. These patterns can be found below.
+Once the correct group was selected, the user then has a choice of 8-9 different letters to choose from. While the first four letters could be chosen with one key press, the remaining 5 required two different keys in order to select the correct letter. These patterns can be found below. The last (27th) key corresponds to a line break.
 ### Include photo of legend here
 
 ## Final Product Demo
