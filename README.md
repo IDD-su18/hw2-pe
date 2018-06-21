@@ -6,7 +6,7 @@ IDD Summer 2018
 ## Introduction
 Conventional QWERTY keyboards, even on touchscreen phones require two hands for efficient operation. Chorded keyboards (also known as a keyset) was [introduced in 1968](https://www.youtube.com/watch?v=t5WUBweOZA4) by Douglas Engelbart, uniquely only requiring one hand.
 
-![Source: Wikimedia Commons.](https://upload.wikimedia.org/wikipedia/commons/a/a7/ON-Line_System_%28NLS%29,_SRI_%281960-1970s%29_-_chord_keyboard_-_Computer_History_Museum.jpg)
+![Source: Microsoft: Buxton Collection](https://www.microsoft.com/buxtoncollection/a/m/IMG_0996.png)
 
 The original chorded keyboard based key mappings on the number the letter corresponded to; for example, A is 1 and J is 10. Each key from left to right was equivalent to 1, 2, 4, 8, 16; pressing two keys at once would add these values together in order to map to the correct letter in the alphabet. The act of pressing two keys at once to yield a different result is where the "chorded" namesake comes from.
 
