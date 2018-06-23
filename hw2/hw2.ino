@@ -3,9 +3,9 @@ Code based off of example vy Brian McEvoy.
 24hourengineer.com
 Program is distributable for personal use.
 */
+#include <Keyboard.h>
 
 #define NUM_INPUTS 5
-
 
 // Inputs. Buttons may be addressed by name but the program expects all buttons after the pinky
 // to be numbered sequentially.
@@ -38,12 +38,14 @@ int row2LED = 6;
 
 void setup() {
   // put your setup code here, to run once:
-
+  Serial1.begin(9600);
   Serial.begin(9600);
+  
+  Serial.println("setup");
+  Keyboard.begin();
 
-  Serial.println("Up and runnning");
 
-  //randomSeed(analogRead(0));
+  randomSeed(analogRead(0));
   
   pinMode(pinkyButton, INPUT_PULLUP);
   pinMode(ringButton, INPUT_PULLUP);
@@ -129,7 +131,7 @@ void sendKeyPress(){
     }
   }
   else {
-    Serial.print(char(findLetter(chordValue)));
+    Serial1.write(char(findLetter(chordValue)));
   }
 }
 
@@ -143,66 +145,73 @@ int customPower(int functionBase, int functionExponent){
 }
 
 int findLetter(int chordValue) { //hardcode the mapping!
-//  Serial.print("chord value = ");
-//  Serial.println(chordValue);
+  Serial.print("chord value = ");
+  Serial.println(chordValue);
   switch (chordValue) {
     case 1:
-      if (rowNumber == 0) { return 'a'; }
-      else if (rowNumber == 1) { return 'k'; }
-      else if (rowNumber == 2) { return 'u'; }
+      if (rowNumber == 0) { Keyboard.write('a'); return 'a'; }
+      else if (rowNumber == 1) { Keyboard.write('k'); return 'k'; }
+      else if (rowNumber == 2) { Keyboard.write('u'); return 'u'; }
       break;
     case 2:
-      if (rowNumber == 0) { return 'b'; }
-      else if (rowNumber == 1) { return 'l'; }
-      else if (rowNumber == 2) { return 'v'; }
+      if (rowNumber == 0) { Keyboard.write('b'); return 'b'; }
+      else if (rowNumber == 1) { Keyboard.write('l'); return 'l'; }
+      else if (rowNumber == 2) { Keyboard.write('v'); return 'v'; }
       break;
     case 3:
-      if (rowNumber == 0) { return 'c'; }
-      else if (rowNumber == 1) { return 'm'; }
-      else if (rowNumber == 2) { return 'w'; }
+      if (rowNumber == 0) { Keyboard.write('c'); return 'c'; }
+      else if (rowNumber == 1) { Keyboard.write('m'); return 'm'; }
+      else if (rowNumber == 2) { Keyboard.write('w'); return 'w'; }
       break;
     case 4:
-      if (rowNumber == 0) { return 'd'; }
-      else if (rowNumber == 1) { return 'n'; }
-      else if (rowNumber == 2) { return 'x'; }
+      if (rowNumber == 0) { Keyboard.write('d'); return 'd'; }
+      else if (rowNumber == 1) { Keyboard.write('n'); return 'n'; }
+      else if (rowNumber == 2) { Keyboard.write('x'); return 'x'; }
       break;
     case 5:
-      if (rowNumber == 0) { return 'e'; }
-      else if (rowNumber == 1) { return 'o'; }
-      else if (rowNumber == 2) { return 'y'; }
+      if (rowNumber == 0) { Keyboard.write('e'); return 'e'; }
+      else if (rowNumber == 1) { Keyboard.write('o'); return 'o'; }
+      else if (rowNumber == 2) { Keyboard.write('y'); return 'y'; }
       break;
     case 6:
-      if (rowNumber == 0) { return 'f'; }
-      else if (rowNumber == 1) { return 'p'; }
-      else if (rowNumber == 2) { return 'z'; }
+      if (rowNumber == 0) { Keyboard.write('f'); return 'f'; }
+      else if (rowNumber == 1) { Keyboard.write('p'); return 'p'; }
+      else if (rowNumber == 2) { Keyboard.write('z'); return 'z'; }
       break;
     case 8:
-      if (rowNumber == 0) { return 'g'; }
-      else if (rowNumber == 1) { return 'q'; }
-      else if (rowNumber == 2) { return '.'; }
+      if (rowNumber == 0) { Keyboard.write('g'); return 'g'; }
+      else if (rowNumber == 1) { Keyboard.write('q'); return 'q'; }
+      else if (rowNumber == 2) { Keyboard.write('.'); return '.'; }
       break;
     case 9:
-      if (rowNumber == 0) { return 'h'; }
-      else if (rowNumber == 1) { return 'r'; }
-      else if (rowNumber == 2) { return '.'; }
+      if (rowNumber == 0) { Keyboard.write('h'); return 'h'; }
+      else if (rowNumber == 1) { Keyboard.write('r'); return 'r'; }
+      else if (rowNumber == 2) { Keyboard.write('.'); return '.'; }
       break;
     case 10:
-      if (rowNumber == 0) { return 'i'; }
-      else if (rowNumber == 1) { return 's'; }
-      else if (rowNumber == 2) { return ','; }
+      if (rowNumber == 0) { Keyboard.write('i'); return 'i'; }
+      else if (rowNumber == 1) { Keyboard.write('s'); return 's'; }
+      else if (rowNumber == 2) { Keyboard.write(','); return ','; }
       break;
     case 12:
-      if (rowNumber == 0) { return 'j'; }
-      else if (rowNumber == 1) { return 't'; }
-      else if (rowNumber == 2) { return '!'; }
+      if (rowNumber == 0) { Keyboard.write('j'); return 'j'; }
+      else if (rowNumber == 1) { Keyboard.write('t'); return 't'; }
+      else if (rowNumber == 2) { Keyboard.write('!'); return '!'; }
       break;
     case 17:
+      Keyboard.write(' '); 
       return ' ';
       break;
     case 18:
+      Keyboard.write('\n'); 
       return '\n';
       break;
     case 20:
+      Keyboard.write('\t'); 
+      return '\t';
+      break;
+    case 24:
+      Keyboard.write(8); 
       return '\t';
       break;
     default:
