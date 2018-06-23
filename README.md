@@ -8,33 +8,42 @@ Conventional QWERTY keyboards, even on touchscreen phones, require two hands for
 
 ![Source: Microsoft: Buxton Collection](https://www.microsoft.com/buxtoncollection/a/m/IMG_0996.png)
 
-The original chorded keyboard based key mappings on the number the letter corresponded to (for example, A is 1 and Z is 26). Each key from left to right was equivalent to 1, 2, 4, 8, 16; pressing two keys at once would add these values together in order to map to the correct letter in the alphabet. The act of pressing two keys at once to yield a different result is where the "chorded" namesake comes from.
+The original chorded keyboard based key mappings on the number the letter corresponded to (for example, A is 1 and Z is 26). Each key from left to right was equivalent to 1, 2, 4, 8, 16; pressing two keys at once would add these values together in order to map to the correct letter in the alphabet. The act of pressing multiple keys at once to yield a different result is where the "chorded" namesake comes from.
 
 ## Hardware
 ### Circuit
-The circuit consists of five switches and an Adafruit Feather M0. Switches were connected to pins 9-13 on the Feather on one terminal, and ground on the other terminal. When the user presses the switch, the switch will be registered as ```LOW``` on the microcontroller because the two terminals on the switch get connected, and the 3.3V is pulled down to ground. Without any presses, the state is regularly registered as ```HIGH```, and internal pull-up resistors are used.
+The circuit consists of five switches, an Adafruit Feather M0, and two LEDs. Switches were connected to pins 9-13 on the Feather on one terminal, and ground on the other terminal. When the user presses the switch, the switch will be registered as ```LOW``` on the microcontroller because the two terminals on the switch get connected, and the 3.3V is pulled down to ground. Without any presses, the state is regularly registered as ```HIGH```, and internal pull-up resistors are used.
 
-The LEDs that are used to display the current group status (see Software: Mapping) were connected to pins 5 and 6 on the microcontroller. Pressing a preset switch (the leftmost key) would toggle the grouping, and thus toggle which LED was on with the use of ```digitalWrite(PIN, 0)``` to turn the last group state-associated LED off, and the next grouping on with ```digitalWrite(PIN,1)```. Two LEDs are used to represent three modes; the left LED represents Mode 1, the right LED represents Mode 2, and both LEDs represent Mode 3.
+The LEDs that are used to display the current step (see Software: Mapping) were connected to pins 5 and 6 on the microcontroller. Pressing a preset switch (the leftmost key) would toggle the grouping, and thus toggle which LED was on with the use of ```digitalWrite(PIN, 0)``` to turn the last group state-associated LED off, and the next grouping on with ```digitalWrite(PIN,1)```. Two LEDs are used to represent three modes; the left LED represents Mode 1, the right LED represents Mode 2, and both LEDs represent Mode 3.
 
 ![Circuit on the breadboard.](images/HW2_bb.jpg)
 ![Equivalent switch schematic.](images/switch.png)
 ![Equivalent LED schematic.](images/led.png)
 
 ### Housing
-The housing is made from 1/8'' thick Plywood. Designs were laser cut using a Universal Laser System. Although several cuts were made in order to get the correct height so the keys would lie directly on top of the buttons. Three holes were cut out for LED display to indicate the current grouping, and a notch on the side was cut out for the microUSB connection to the microcontroller.
-![Laser cutting the parts.](images/IMG_0059.JPG)
-![Housing after construction.](images/final.jpg)
+The housing is made from 1/8'' thick Plywood. Designs were laser cut using a Universal Laser System. Three holes were cut out for LED display to indicate the current grouping, and a notch on the side was cut out for the microUSB connection to the microcontroller.
+
+Below are a few of our early housing designs.
+![Enclosure prototypes](images/prototypes.jpg)
+
+Our final design included a key for every letter in the alphabet and special character that can be used on the keyboard. By following the lines from right to left, beginning at the character you'd like to input, you can see which keys need to be pressed down to make each combination. 
+
+![Final enclosure](images/final.JPG)
 
 ## Software
 ### Debouncing
-In order to correctly register key presses, debouncing the buttons was required in order to provide a smooth interface. Debouncing was done by setting a variable ```DEBOUNCE_TIME``` to 20 ms. Debouncing often only requires 5-10 ms, but extra time was added to help with registering simultaneous key presses. We found that setting this delay right as the first key press was detected and after all buttons were released worked best. Presses were then registered in an array. 
+In order to correctly register key presses, debouncing the buttons was required in order to provide a smooth interface. Debouncing was done by setting a variable ```DEBOUNCE_TIME``` to 20 ms. Debouncing often only requires 5-10 ms, but extra time was added to help with registering simultaneous key presses. We found that setting this delay right as the first key press was detected and after all buttons were released worked best. Presses were then registered in an array to be decoded as characters. 
 
 ### Mapping
-Instead of using the math-based mapping of the original chorded keyboard, we decided to create specific mappings to different key patterns. The alphabet was split into groups of 3: A-J, K-T, and U-Z. Accessing a key from any of these groups would require toggling the "step" button on the leftmost side to the respective group. The remaining combinations were used for punctuation characters (? . , and !). 
+Though we borrowed some of the shape progressions from the original Engelbart keyboard, we reduced the number of key press combinations by splitting the alphabet into groups of 3, and reusing the same key patterns within each group. Pressing the "step" key (leftmost key), the user can switch between these three sets, which are listed here:
+   
+   1. A - J
+   2. K - T
+   3. U - Z and punctuation characters (? . , and !)
+   
+We also included unique chords for commonly used special characters (delete, tab, enter, and space) that can be accessed regardless of which step the program is in. Though this can take time to get used to, we included LEDs to let the user know which step they are in at all times, and visual representations of each character's chord on the keyset itself. These patterns can be found below.
 
-Once the correct group was selected, the user then has a choice of 8-9 different letters to choose from. While the first four letters could be chosen with one key press, the remaining 5 required two different keys in order to select the correct letter. Commonly used special characters can be accessed using the the left key, and do not depend on what step the program is in. These patterns can be found below.
-
-![Key Mapping Sketch.](images/mapping_sketch.jpg)
+![Key Mapping Sketch](images/mapping_sketch.jpg)
 
 To translate the data from the pins to our character mapping, we used a function to represent the list's state as a unique number. This function scanned through the list of input pins, adding them in as increasing powers of twos. We could then use this id number to return the appropriate letter in our mapping.
 
