@@ -33,6 +33,8 @@ int rowNumber = 0;
 int rowPresses = 3; 
 
 
+int row1LED = 5;
+int row2LED = 6;
 
 void setup() {
   // put your setup code here, to run once:
@@ -48,6 +50,8 @@ void setup() {
   pinMode(middleButton, INPUT_PULLUP);
   pinMode(indexButton, INPUT_PULLUP);
   pinMode(thumbButton, INPUT_PULLUP);
+  pinMode(row1LED, OUTPUT);
+  pinMode(row2LED, OUTPUT);
 }
 
 void loop() {
@@ -104,12 +108,28 @@ void sendKeyPress(){
       
     }
   }
+
+  // if the leftmost key was pressed, toggle the row and leds
   if (chordValue == 16) {
+    Serial.println("yo");
     rowPresses += 1;
     rowNumber = rowPresses % 3;
+    if (rowNumber == 0) {
+      digitalWrite(row1LED, LOW);
+      digitalWrite(row2LED, LOW);
+    }
+    if (rowNumber == 1) {
+      digitalWrite(row1LED, HIGH);
+      digitalWrite(row2LED, LOW);
+    }
+
+    if (rowNumber == 2) {
+      digitalWrite(row1LED, HIGH);
+      digitalWrite(row2LED, HIGH);
+    }
   }
   else {
-    Serial.println(char(findLetter(chordValue)));
+    Serial.print(char(findLetter(chordValue)));
   }
 }
 
@@ -186,7 +206,7 @@ int findLetter(int chordValue) { //hardcode the mapping!
       return '\t';
       break;
     default:
-      return '??';
+      return '\0';
       break;
   }
 }
