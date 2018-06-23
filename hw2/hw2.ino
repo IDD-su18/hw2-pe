@@ -2,7 +2,8 @@
 
 
 #define DEBOUNCE 50  // Debounce delay
-#define CONFIRMATION_TIME 10
+// use this somewhere
+#define CONFIRMATION_TIME 50
 
 // here is where we define the buttons that we'll use. button "1" is the first, button "6" is the 6th, etc
 byte buttons[] = {5, 6, 9, 10, 11}; 
@@ -122,12 +123,12 @@ void findLetter() { //hardcode the mapping!
     case 31:
       if (rowNumber == 0) { letter = 'i'; }
       else if (rowNumber == 1) { letter = 's'; }
-      else if (rowNumber == 2) { letter = '!'; }
+      else if (rowNumber == 2) { letter = ','; }
       break;
     case 32:
       if (rowNumber == 0) { letter = 'j'; }
       else if (rowNumber == 1) { letter = 't'; }
-      else if (rowNumber == 2) { letter = '?'; }
+      else if (rowNumber == 2) { letter = '!'; }
       break;
     case 40:
       letter = ' ';
