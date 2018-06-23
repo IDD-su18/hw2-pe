@@ -4,14 +4,16 @@ Code based off of example vy Brian McEvoy.
 Program is distributable for personal use.
 */
 
+#define NUM_INPUTS 5
+
 
 // Inputs. Buttons may be addressed by name but the program expects all buttons after the pinky
 // to be numbered sequentially.
-int pinkyButton = 5;
-int ringButton = 6;
-int middleButton = 9;
-int indexButton = 10;
-int thumbButton = 11;
+int pinkyButton = 9;
+int ringButton = 10;
+int middleButton = 11;
+int indexButton = 12;
+int thumbButton = 13;
 
 int prefixChord = 0;            // 1 = shift (F). 2 = numlock (N). 3 = special (CN). 4 = function keys
 int chordValue = 0;
@@ -26,17 +28,20 @@ boolean buttons[5];     // Pinky is [0] and far thumb is [6]
 boolean latchingButtons[5];
 boolean acquiringPresses = LOW;
 boolean calculateKey = LOW;
-boolean stickySpecialLock = LOW;
+
+int rowNumber = 0;
+int rowPresses = 3; 
 
 
 
 void setup() {
   // put your setup code here, to run once:
-  Serial1.begin(9600);
+
   Serial.begin(9600);
+
   Serial.println("Up and runnning");
 
-  randomSeed(analogRead(0));
+  //randomSeed(analogRead(0));
   
   pinMode(pinkyButton, INPUT_PULLUP);
   pinMode(ringButton, INPUT_PULLUP);
@@ -47,21 +52,143 @@ void setup() {
 
 void loop() {
   // put your main code here, to run repeatedly:
-    acquiringPresses = checkButtonArray();
   
-  if (acquiringPresses && onlyFarThumbPressed(farTButton)){
-    doMouseSTUFF();
-  }
+  acquiringPresses = checkButtonArray();
   
   if (acquiringPresses){
     delay(debounceDelay);                           // Instead of a true software debounce this will wait a moment until the first button press has settled.
     typingChord();                      // Wait and see which keys are touched. When they are all released print the correct letter.
-    updateShiftKeys();          // Change the prefixChord value if any of the 'locks' are set. Example, Num Lock or Caps Lock.
     sendKeyPress();                     // Using the buttons pressed during the typingChord function determine how to handle the chord.
     delay(debounceDelay);                           // The other half of the software "debounce"
-    for (int i = 0; i < 7; i++){    // Once a keypress has been sent the booleans should be reset.
+    for (int i = 0; i < NUM_INPUTS ; i++){    // Once a keypress has been sent the booleans should be reset.
       latchingButtons[i] = LOW;
     }
     chordValue = 0;
   }
 }
+
+boolean checkButtonArray(){
+  // Update the buttons[] array with each scan. Set the acquiringPresses bit HIGH if any switch is pressed.
+  for (int i = 0; i < NUM_INPUTS; i++){
+    // idk what this is doing
+    boolean buttonState = !digitalRead(pinkyButton + i);
+    if (buttonState){
+      buttons[i] = HIGH;
+    } else{
+      buttons[i] = LOW;
+    }
+  }
+  for (int i = 0; i < NUM_INPUTS; i++){
+    if (buttons[i]){
+      return HIGH;
+    }
+  }
+  return LOW;
+}
+
+void typingChord(){
+  while (acquiringPresses){
+    for (int i = 0; i < NUM_INPUTS; i++){
+      if (buttons[i] == HIGH){
+        latchingButtons[i] = HIGH;
+      }
+    }
+    acquiringPresses = checkButtonArray();
+  }
+}
+
+void sendKeyPress(){
+  for (int i = 0; i < NUM_INPUTS; i++){
+    if (latchingButtons[i] == HIGH){
+      chordValue = chordValue + customPower(2, i);
+      
+    }
+  }
+  if (chordValue == 16) {
+    rowPresses += 1;
+    rowNumber = rowPresses % 3;
+  }
+  else {
+    Serial.println(char(findLetter(chordValue)));
+  }
+}
+
+int customPower(int functionBase, int functionExponent){
+  int functionResult = 1;
+  for (int i = 0; i < functionExponent; i++){
+    functionResult = functionResult * functionBase;
+  }
+  
+  return functionResult;
+}
+
+int findLetter(int chordValue) { //hardcode the mapping!
+//  Serial.print("chord value = ");
+//  Serial.println(chordValue);
+  switch (chordValue) {
+    case 1:
+      if (rowNumber == 0) { return 'a'; }
+      else if (rowNumber == 1) { return 'k'; }
+      else if (rowNumber == 2) { return 'u'; }
+      break;
+    case 2:
+      if (rowNumber == 0) { return 'b'; }
+      else if (rowNumber == 1) { return 'l'; }
+      else if (rowNumber == 2) { return 'v'; }
+      break;
+    case 3:
+      if (rowNumber == 0) { return 'c'; }
+      else if (rowNumber == 1) { return 'm'; }
+      else if (rowNumber == 2) { return 'w'; }
+      break;
+    case 4:
+      if (rowNumber == 0) { return 'd'; }
+      else if (rowNumber == 1) { return 'n'; }
+      else if (rowNumber == 2) { return 'x'; }
+      break;
+    case 5:
+      if (rowNumber == 0) { return 'e'; }
+      else if (rowNumber == 1) { return 'o'; }
+      else if (rowNumber == 2) { return 'y'; }
+      break;
+    case 6:
+      if (rowNumber == 0) { return 'f'; }
+      else if (rowNumber == 1) { return 'p'; }
+      else if (rowNumber == 2) { return 'z'; }
+      break;
+    case 8:
+      if (rowNumber == 0) { return 'g'; }
+      else if (rowNumber == 1) { return 'q'; }
+      else if (rowNumber == 2) { return '.'; }
+      break;
+    case 9:
+      if (rowNumber == 0) { return 'h'; }
+      else if (rowNumber == 1) { return 'r'; }
+      else if (rowNumber == 2) { return '.'; }
+      break;
+    case 10:
+      if (rowNumber == 0) { return 'i'; }
+      else if (rowNumber == 1) { return 's'; }
+      else if (rowNumber == 2) { return ','; }
+      break;
+    case 12:
+      if (rowNumber == 0) { return 'j'; }
+      else if (rowNumber == 1) { return 't'; }
+      else if (rowNumber == 2) { return '!'; }
+      break;
+    case 17:
+      return ' ';
+      break;
+    case 18:
+      return '\n';
+      break;
+    case 20:
+      return '\t';
+      break;
+    default:
+      return '??';
+      break;
+  }
+}
+
+
