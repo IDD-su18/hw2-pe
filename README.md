@@ -3,6 +3,11 @@ Paige Plander & Emily Huynh
 
 IDD Summer 2018
 
+## Final Product Demo
+This video shows the prototype being used to type "hello world!".
+
+https://youtu.be/BeIKeHseZs4
+
 ## Introduction
 Conventional QWERTY keyboards, even on touchscreen phones, require two hands for efficient operation. Chorded keyboards (also known as a keyset) were [introduced in 1968](https://www.youtube.com/watch?v=t5WUBweOZA4) by Douglas Engelbart, uniquely requiring only one hand.
 
@@ -49,11 +54,6 @@ To translate the data from the pins to our character mapping, we used a function
 
 ### Keyboard Functions
 To input text outside of the serial monitor, we used the [Arduino Keyboard library](https://www.arduino.cc/reference/en/language/functions/usb/keyboard/).
-
-## Final Product Demo
-This video shows the prototype being used to type "hello world!".
-
-https://youtu.be/BeIKeHseZs4
 
 ## Reflection
 We had little to no experience in most of the tasks we had to do to complete for this project (which was cool!), so a lot of time was spent fixing mistakes and learning how to use the design software we were working with. Getting the laser cut casing to fit perfectly over the keys took many attempts, and we spent a lot of time debugging the debouncing code. The most tedious part of the hardware implementation was finding LEDs that worked, but otherwise didn't take too much time overall. If we had more time, we would have liked to prototype different key mappings and physical key types, and come up with a way to fit the entire circuit behind the keyset. 
